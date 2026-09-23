@@ -104,7 +104,11 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
             if (player.isInvulnerable())
             {
                 AfkPlus.LOGGER.warn("PlayerManager().createPlayer() -> Marking SURVIVAL player: {} as vulnerable.", afkPlayer.getName());
+                //#if MC >= 26.3
+                //$$ player.setPermanentlyInvulnerable(false);
+                //#else
                 player.setInvulnerable(false);
+                //#endif
             }
         }
         // checkInvulnerable2
@@ -131,7 +135,11 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
             if (player.isInvulnerable())
             {
                 AfkPlus.LOGGER.warn("PlayerManager().onPlayerConnect() -> Marking SURVIVAL player: {} as vulnerable.", afkPlayer.getName());
+                //#if MC >= 26.3
+                //$$ player.setPermanentlyInvulnerable(false);
+                //#else
                 player.setInvulnerable(false);
+                //#endif
             }
         }
 
@@ -167,7 +175,11 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
                 AfkPlayer afkPlayer = AfkPlayerList.getInstance().addOrGetPlayer(player);
 
                 AfkPlus.LOGGER.warn("PlayerManager().repsawnPlayer() -> Marking SURVIVAL player: {} as vulnerable.", afkPlayer.getName());
+                //#if MC >= 26.3
+                //$$ player.setPermanentlyInvulnerable(false);
+                //#else
                 player.setInvulnerable(false);
+                //#endif
 
                 if (afkPlayer.isUnplugged())
                 {
@@ -449,7 +461,11 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
                     {
                         if (player.isInvulnerable())
                         {
+                            //#if MC >= 26.3
+                            //$$ player.setPermanentlyInvulnerable(false);
+                            //#else
                             player.setInvulnerable(false);
+                            //#endif
                         }
 
                         afkPlayer.getHandler().enableDamage();
