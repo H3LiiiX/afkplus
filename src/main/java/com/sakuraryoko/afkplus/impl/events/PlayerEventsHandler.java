@@ -242,7 +242,18 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
 
         AfkPlayer afkPlayer = AfkPlayerList.getInstance().getPlayer(player);
         int timeoutSeconds = ConfigWrap.pack().timeoutSeconds;
-        long afkDuration = Util.getMillis() - player.getLastActionTime();
+        
+        long afkDuration;
+        if (afkPlayer != null && ConfigWrap.pack().strictMovement)
+        {
+            long lastMove = Util.getMillis() - afkPlayer.getLastMovementTime();
+            long lastLook = Util.getMillis() - afkPlayer.getLastLookTime();
+            afkDuration = Math.min(lastMove, lastLook);
+        }
+        else
+        {
+            afkDuration = Util.getMillis() - player.getLastActionTime();
+        }
 
         if (afkPlayer == null)
         {
@@ -424,9 +435,15 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
 
                 afkPlayer.setLastLookTime(Util.getMillis());
 
-                if (ConfigWrap.pack().resetOnLook)
+                if (ConfigWrap.pack().resetOnLook || ConfigWrap.pack().strictMovement)
                 {
                     player.resetLastActionTime();
+                }
+                
+                if (ConfigWrap.pack().strictMovement && afkPlayer.isAfk())
+                {
+                    AfkPlus.debugLog("onMovement(): Player [{}] // Looked (Remove AFK)", afkPlayer.getName());
+                    afkPlayer.getHandler().unregisterAfk();
                 }
             }
         }
@@ -509,6 +526,11 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
 
         if (afkPlayer != null && afkPlayer.isAfk() && !afkPlayer.shouldIgnoreAttacks())
         {
+            if (ConfigWrap.pack().strictMovement)
+            {
+                return;
+            }
+            
             AfkPlus.debugLog("onResetLastAction(): Player [{}] // Reset Last Action (Remove AFK)", afkPlayer.getName());
             afkPlayer.getHandler().unregisterAfk();
         }
@@ -535,9 +557,15 @@ public class PlayerEventsHandler implements IPlayerEventsDispatch
                 {
                     afkPlayer.setLastMovementTime(Util.getMillis());
 
-                    if (ConfigWrap.pack().resetOnMovement)
+                    if (ConfigWrap.pack().resetOnMovement || ConfigWrap.pack().strictMovement)
                     {
                         player.resetLastActionTime();
+                    }
+                    
+                    if (ConfigWrap.pack().strictMovement && afkPlayer.isAfk())
+                    {
+                        AfkPlus.debugLog("onSetPos(): Player [{}] // Movement (Remove AFK)", afkPlayer.getName());
+                        afkPlayer.getHandler().unregisterAfk();
                     }
                 }
             }

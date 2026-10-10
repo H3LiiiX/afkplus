@@ -30,6 +30,7 @@ public class PacketOptions implements IConfigOption
     public int timeoutSeconds;
     public boolean resetOnMovement;
     public boolean resetOnLook;
+    public boolean strictMovement;
     public boolean ignoreAttacks;
     public boolean bypassSleepCount;
     public boolean bypassInsomnia;
@@ -46,6 +47,7 @@ public class PacketOptions implements IConfigOption
         this.timeoutSeconds = 240;
         this.resetOnMovement = false;
         this.resetOnLook = false;
+        this.strictMovement = false;
         this.ignoreAttacks = false;
         this.bypassSleepCount = true;
         this.bypassInsomnia = true;
@@ -61,6 +63,7 @@ public class PacketOptions implements IConfigOption
         this.timeoutSeconds = opts.timeoutSeconds;
         this.resetOnMovement = opts.resetOnMovement;
         this.resetOnLook = opts.resetOnLook;
+        this.strictMovement = opts.strictMovement;
         this.ignoreAttacks = opts.ignoreAttacks;
         this.bypassSleepCount = opts.bypassSleepCount;
         this.bypassInsomnia = opts.bypassInsomnia;

@@ -114,6 +114,8 @@ public class AfkHandler
         this.player.setAfk(false);
         this.player.setAfkTimeMs(0L);
         this.player.setAfkReason("");
+        this.player.setLastMovementTime(Util.getMillis());
+        this.player.setLastLookTime(Util.getMillis());
     }
 
     @ApiStatus.Internal
@@ -125,6 +127,8 @@ public class AfkHandler
             this.player.setAfk(false);
             this.player.setAfkTimeMs(0L);
             this.player.setAfkReason("");
+            this.player.setLastMovementTime(Util.getMillis());
+            this.player.setLastLookTime(Util.getMillis());
 
             return;
         }
@@ -154,6 +158,8 @@ public class AfkHandler
         this.player.setAfk(false);
         this.player.setAfkTimeMs(0L);
         this.player.setAfkReason("");
+        this.player.setLastMovementTime(Util.getMillis());
+        this.player.setLastLookTime(Util.getMillis());
 
         if (!this.player.isDamageEnabled())
         {
